@@ -1,731 +1,325 @@
-Memory Transfer
-#include<reg51.h>
-void main()
-	{
-  int source[4]= {0X10,0X20,0X30,0X40};
-	int destination[4];
-int i;
-for(i=0;i<4;i++)
-		{
-	destination[i]=source[i];
-}
-while(1);
-}
-
-LED
-#include<reg51.h>
-
-void delay(){
-	int i,j;
-	for(i=0;i<1000;i++)
-	{
-	for(j=0;j<100;j++);
-}
-}
-void main()
-{
-	int z;
-	while(1)
-	{
-		for(z=0;z<9;z++)
-		{
-			P1=z;
-			delay();
-		}
-	}
-}
-
-#include<reg51.h>
-
-void delay()
-{
-	int i,j;
-	for(i=0;i<1000;i++)
-	{
-		for(j=0;j<100;j++);
-	}
-}
-
-#include<reg51.h>
- void delay()
- {
-  int i,j;
-  for(i=0;i<1000;i++)
-  for(j=0;j<100;j++);
-  }
-  void main()
-  {
-  int x;
-  while(1)
-  {
-  for(x=0;x<16;x++)
-  {
-    P1=x;
-  	delay();
-	}
-	}
-	}
-
-void main()
-{
-	char mynum[] = "0123456ABC";
-	int z;
-	while(1)
-	{
-		for(z=0;z<11;z++)
-	  P1=mynum[z];
-		delay();
-		
-	}
-  
-}
-
-
-
-Seven segment 0-9
-
-#include<reg51.h>
-void display(char byte);
-void delay();
-void main()
-	{
-		P0=0x00;
-		P1=0x04;
-		
-		while (1)
-		{
-			display(0xc0);
-			display(0xf9);
-			display(0xa4);
-			display(0xb0);
-			display(0x99);
-			display(0x92);
-			display(0x82);
-			display(0xf8);
-			display(0x80);
-			display(0x90);
-		}
-}
-void display(char byte)
-	{
-	  P0=byte;
-		delay();
-	}
-	void delay()
-	{
-
-	int i,j;
-		for(i=0;i<100;i++)
-		{
-		  for(j=0;j<100;j++);
-		}
-	}
-
-
-
-
-
-
-
-
-Seven segment 0-99
-#include<Reg51.h>
-#define SegOne 0x02;
-#define SegTwo 0x01;
-void delay_ms(unsigned int ms_count)
-{
-	unsigned int i,j;
-	for(i=0;i<ms_count;i++)
-	{
-		for(j=0;j<15;j++);
-	}
-		
-}
-void main()
-{
-	char seg_code[]={0xc0,0xf9,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};
-	int cnt,num,temp,i;
-	while(1)
-	{
-		for(cnt=0x00;cnt<=99;cnt++)
-		{
-			for(i=0;i<100;i++)
-			{
-				num=cnt;
-				temp=num%10;
-				P2=SegOne;
-				P1=seg_code[temp];
-				delay_ms(10);
-				temp=num/10;
-				P2=SegTwo;
-				P1=seg_code[temp];
-				delay_ms(10);
-			}
-		}
-	}
-}
-
-
-Stepper motor
-#include <reg51.h>
-
-sbit IN1 = P1^4;
-sbit IN2 = P1^5;
-sbit IN3 = P1^6;
-sbit IN4 = P1^7;
-
-//To enable L293D Motor driver   IC  EN1 & EN2 
-
-# define P1^0 1;
-# define P1^1 1;
-
-void delay();
-
-void main()
-{
-    while(1)
-    {
-       
-    IN1 = 0; IN2 = 0; IN3 = 0; IN4 = 1;
-    delay();
-    IN1 = 0; IN2 = 0; IN3 = 1; IN4 = 0;
-    delay();
-    IN1 = 0; IN2 = 1; IN3 = 0; IN4 = 0;
-    delay();
-    IN1 = 1; IN2 = 0; IN3 = 0; IN4 = 0;
-    delay();
-    }
-}
-
-void delay()
-{
-    unsigned int i, j;
-    for(i = 0; i < 10; i++)
-        for(j = 0; j < 100; j++);
-}
-
-Another way to perform Stepper Motor
-
-
-
-#include <reg51.h>
-
-void delay();
-
-void main()
-{
-int source[4]= {0X13,0X23,0X43,0X83};
-int i;
-
-    while(1)
-    {
-      for(i=0;i<4;i++) 
-			{ 
-      P1=source[i];
-       delay();
-       }
-}
-}
-
-void delay()
-{
-    unsigned int i, j;
-    for(i = 0; i < 10; i++)
-        for(j = 0; j < 100; j++);
-}
-
-
-
-#include <reg51.h>
-
-void delay();
-
-void main()
-{
-int source[4]= {0X13,0X23,0X43,0X83};
-int i;
-
-    while(1)
-    {
-      for(i=0;i<4;i++) 
-			{ 
-      P1=source[i];
-       delay();
-       }
-}
-}
-
-void delay()
-{
-    unsigned int i, j;
-    for(i = 0; i < 10; i++)
-        for(j = 0; j < 100; j++);
-}
-
-DAC Square wave
-#include<reg51.h>
-void delay()
-{
-	TMOD=0X10;
-	TH1=0XFF;
-	TL1=0X1A;
-	TR1=1;
-	
-	while(TF1==0);
-	{
-		TR1=0;
-		TF1=0;
-	}
-}
-	void main()
-	{
-		while(1)
-		{
-			P1=0x00;
-			delay();
-			P1=0xff;
-			delay();
-		}
-	}
-
-DAC sawtooth
-#include<reg51.h>
-void delay(){
-	
-	TMOD=0X10;
-	TH1=0XFF;
-	TL1=0X1A;
-	TR1=1;
-	
-	while(TF1==0);
-	
-	TR1=0;
-	TF1=0;
-
-}
- 
-void main()
-	{
-	unsigned char value=0;
-	
-		while(1)
-		{
-	For(value=0;value<32;value++)
-		
-			{
-				P1=value;
-				delay_timer1;
-			}
-		}
-	}
-
-Traingular Wave
-
-#include<reg51.h>
-void delay()
-{
-	TMOD=0X10;
-	TH1=0XFF;
-	TL1=0X1A;
-	TR1=1;
-	
-	while(TF1==0);
-	{
-		TR1=0;
-		TF1=0;
-	}
-}
-	void main()
-	{
-		unsigned char i;
-		while(1)	
-		{	
-			P1=0X00;			
-			for(i=0;i<255;i++)
-			{
-				P1=i;
-			  delay();
-			}
-			
-			for(i=255;i>0;i--)
-			{
-			  P1=i;
-			  delay();
-			}
-		}
-	}
-
-another way to perform stepper motor
-#include <reg51.h>
-void delay() 
-	{
-	int i,j;
-    for(i=0;i<10;i++)
-		for(j=0;j<100;j++);
-	}
-
-void main() { 
-    while (1) {
-        P1 = 0x03;   
-        delay();
-
-        P1 = 0x06;   
-        delay();
-
-        P1 = 0x0C;   
-        delay();
-
-        P1 = 0x09;   
-        delay();
-    }
-}
-
-
-PIC LED BUZZER
-#include<p18f4520.h>
-
-#pragma config OSC=HS
-#pragma config PWRT=OFF
-#pragma config WDT=OFF
-#pragma config DEBUG=OFF, LVP=OFF
-
-void msdelay(unsigned int itime);
-void Right(void);
-void Left(void);
-#define Relay PORTDbits.RD2
-#define BUZZER  PORTDbits.RD3
-#define SW1   PORTDbits.RD0
-#define SW2   PORTDbits.RD1
-#define LD1   PORTDbits.RD4
-#define LD2   PORTDbits.RD5
-#define LD3   PORTDbits.RD6
-#define LD4   PORTDbits.RD7
-
-unsigned int i,data;
-
-void main()
-{					
-	TRISD=0x03;
-	ADCON1=0x0F;
-	PORTD=0x00;
-    Relay=0;
-    BUZZER =0;
-	while(1)
-	{	
-		if(SW1==0)	
-		  Left();		
-		if(SW2==0)			 
-		  Right();	
-	}
-}
-
-void Right(void)
-{	
-  Relay=1; BUZZER =0;
-  while(SW1!=0)	
-  {
-	if(SW1==0)
-	Left();
-	LD1=1;LD2=0;LD3=0;LD4=0;Relay=0;
-	msdelay(30);
-	LD1=0;LD2=1;LD3=0;LD4=0;Relay=0;
-	msdelay(30);
-	LD1=0;LD2=0;LD3=1;LD4=0;Relay=0;
-	msdelay(30);
-	LD1=0;LD2=0;LD3=0;LD4=1;Relay=0;
-	msdelay(30);	
-  }
-}
-
-void Left(void)
-{
-	Relay=0;
-  BUZZER =1;   
-  while(SW2!=0)
-  {
-    if(SW2==0)
-    Right();
-	LD1=0;LD2=0;LD3=0;LD4=1;Relay=1;  
-	msdelay(30);
-	LD1=0;LD2=0;LD3=1;LD4=0;Relay=1;  
-	msdelay(30);
-	LD1=0;LD2=1;LD3=0;LD4=0;Relay=1;  
-	msdelay(30);
-	LD1=1;LD2=0;LD3=0;LD4=0;Relay=1;  
-	msdelay(30);		  
-  }
-}                                                                                                                      
-void msdelay (unsigned int itime)
-{
-  int i,j;
-  for(i=0;i<itime;i++)
-  for(j=0;j<1275;j++);
-}
-
-Lcd Display
-
-/*
-	Company Name:- Logsun Systems
-	Project     :- 8-Bit LCD
-
-	Connection Details:-
-						PORTB = LCD Data
-						PORTD = LCD Command					
-							
-*/
-#include <P18f4520.h>
-#pragma config OSC=HS
-#pragma config PWRT=OFF
-#pragma config WDT=OFF
-#pragma config DEBUG=OFF, LVP=OFF 
- unsigned char text1[] = {" LOGSUN SYSTEMS"}; 
- unsigned char text2[] = {"  PIC 18F4520"};
-void delay(unsigned int value);
-void lcdcmd(unsigned char value);
-void lcddata(unsigned char value);
-void lcdinit(void);
-void lcddisplay(int row,unsigned char *str);
-#define ldata PORTB
-#define rs PORTDbits.RD3
-#define rw PORTDbits.RD4
-#define en PORTDbits.RD5
-
-void main()
-{
-		
-		TRISD =0x00;
-		TRISB=0x00;
-	//	ADCON1=0x0F;
-		lcdinit();
-		lcddisplay(1,text1);
-		lcddisplay(2,text2);
-		while(1);
-			
-	
-}
-void lcddisplay(int row,unsigned char *str)
-{
-
-	int k;
-	if (row==1)
-	lcdcmd(0x80);
-	else lcdcmd(0xC0);
-	for(k=0;k<16;k++)
-	{
-		if(str[k] !=0)
-		lcddata(str[k]);
-		else  break;
-	}		
-	
-	
-while((k<16)){
-				lcddata(' ');
-				k++;
-			}
-}
-
-void delay(unsigned int value)
-{
-		int i,j;
-		for(i=0;i<=value;i++)
-		for(j=0;j<=50;j++);
-}
-
- void lcdcmd (unsigned char value)
-{
-		ldata=value;
-		rs=0;
-		rw=0;
-		en=1;
-		delay(1);
-		en=0;
-}
- void lcddata (unsigned char value)
-{
-		ldata=value;
-		rs=1;
-		rw=0;
-		en=1;
-		delay(1);
-		en=0;
-}
-void lcdinit(void)
-{
-		lcdcmd(0x38);
-		delay(1);
-		lcdcmd(0x0E);
-		delay(1);
-		lcdcmd(0x01);
-		delay(1);
-		lcdcmd(0x06);
-		delay(1);
-}
-
-Timer With interrupt
-#include<p18f4520.h>
-
-#pragma config OSC=HS
-#pragma config PWRT=OFF
-#pragma config WDT=OFF
-#pragma config DEBUG=OFF, LVP=OFF 
-
-void timer_isr(void);
-
-#pragma code _HIGH_INTERRUPT_VECTOR = 0x08
-
-
-void high_ISR (void)
-
-{
-      _asm goto timer_isr _endasm    //The program is relocated to execute the interrupt routine timer_isr
-
-}
-
- 
-#pragma code
-
-// This function is executed as soon as the timer interrupt is generated due to timer overflow
-
-#pragma interrupt timer_isr
- 
-void timer_isr(void)
-
-{
-
-      TMR0H = 0X3C;              // Reloading the timer values after overflow
-      TMR0L = 0XB0;
-
-      PORTD = ~PORTD;              //Toggle the PORTD led outputs 
-      INTCONbits.TMR0IF = 0;//Resetting the timer overflow interrupt flag
-}
-
-
-void main()
-
-{    
-
-      ADCON1 = 0x0F;        //Configuring the PORTE pins as digital I/O
-      TRISD = 0x00;                  //Configuring the LED port pins as outputs
-      PORTD = 0xFF;                //Setting the initial value of the LED's after reset
-     T0CON = 0x08;    //Set the timer to 16-bit mode,internal instruction cycle clock,no            prescaler
-  TMR0H = 0x3C;              
-    TMR0L = 0xB0;
-
-
-
-      INTCONbits.TMR0IF = 0;      // Clear Timer0 overflow flag
-      INTCONbits.TMR0IE = 1;      // TMR0 interrupt enabled
-      T0CONbits.TMR0ON = 1;       // Start timer0
-     INTCONbits.GIE = 1;               // Global interrupt enabled
-    while(1);      //Program execution stays here untill the timer overflow interrupt is generated
-  
-}
-
-
-Serial Communications
-#include <p18F4520.h>
-
-//Configuration bit setting//
-
-#pragma config OSC=HS
-#pragma config PWRT=OFF
-#pragma config WDT=OFF
-#pragma config DEBUG=OFF, LVP=OFF 
-
-#define _XTAL_FREQ 20000000
-
-void Transmit_String(unsigned char *string)
-{
-    unsigned char i=0;
- 	for(i=0;string[i]!='\0';i++) //loop till end of the string
- 	{
-        while(PIR1bits.TXIF == 0);
-        TXREG = string[i];
-        
-    }	
-}
- 
-
-unsigned char MSG1[] = {"UART COMMUNICATION \r\n"};
-unsigned char MSG2[] = {"Received Data \r\n"};
-unsigned char MSG3[] = {" \r\n"};
-void main(void)
-{
-    unsigned char j=0;
-    unsigned char RX_DATA[10];
-    
-    TRISCbits.TRISC7 = 1;   // RXD as Input
-    TRISCbits.TRISC6 = 0;   // TXD as Output
-    RCSTA = 0x90;
-    TXSTA = 0x24;
-    BAUDCON = 0x08;
-    SPBRG = 0x0A;
-    SPBRGH = 0x02;
-           
-    Transmit_String (MSG1);
-  
-    for (j=0; j<6 ; j++)
-    {
-        while(PIR1bits.RCIF == 0);
-        RX_DATA[j] = RCREG;
-    }
-
-    RX_DATA[6] = '\0';
-    Transmit_String (MSG2);
-    Transmit_String (RX_DATA);
-   Transmit_String (MSG3);
-    while(1);
-    
-    
-}
-
-
-//**************************************************************
-//  Program for PWM Generation using PIC18F4520. 
-//  PWM output  	:       RC1
-//**************************************************************
-#include <p18f4520.h>
-
-//#pragma config OSC = HS //Oscillator Selection
-//#pragma config WDT = OFF //Disable Watchdog timer
-//#pragma config LVP = OFF //Disable Low Voltage Programming
-//#pragma config PBADEN = OFF //Disable PORTB Analog inputs
-
-void myMsDelay (unsigned int time) 	// Definition of delay subroutine
-{
-	unsigned int i, j;
-	for (i = 0; i < time; i++)		// Loop for i time
-		for (j = 0; j < 275; j++);	// Calibrated for a 1 ms delay in MPLAB
-}
-
-void main()
-{ 
-	TRISCbits.TRISC4 = 0 ;	// Set PORTC, RC4 as output (DCM IN1)
-	TRISCbits.TRISC5 = 0 ;	// Set PORTC, RC5 as output (DCM IN2)	
-	TRISCbits.TRISC1 = 0 ;	// Set PORTC, RC1 as output (CCP2 - DCM EN1)
-   	PR2 = 0x4E;             // set PWM Frequency 4KHz  
-    CCP1CON = 0x0C;         // Configure CCP1CON as PWM mode.
- 	T2CON = 0x07;		//Start timer 2 with prescaler 1:16
-	PORTCbits.RC4 = 1;	// Turn ON the Motor
-    PORTCbits.RC5 = 0;
-  while(1)	// Endless Loop
-	{
-		// ----------Duty Cycle 25%-----------
-		CCP1CONbits.DC1B0 = 0;
-		CCP1CONbits.DC1B1 = 1;
-		CCPR1L = 0x13;
-		myMsDelay(2000);
-	//	 ----------Duty Cycle 50%-----------
-		CCP1CONbits.DC1B0 = 0;
-		CCP1CONbits.DC1B1 = 0;
-		CCPR1L = 0x27;
-		myMsDelay(2000);
- //----------Duty Cycle 75%-----------
-		CCP1CONbits.DC1B0 = 0;
-		CCP1CONbits.DC1B1 = 1;
-		CCPR1L = 0x3A;
-		myMsDelay(2000);
- 	}   
- 
-}
-
+%Linearblockcode
+clc;
+clear all;
+close all;
+n=input('Enter n:');
+k=input('Enter k:');
+d=input('Enter data:');
+G=input('Enter generator matrix:');
+c=d*G;
+C=rem(c,2);
+disp('Data is :');
+disp(d);
+disp('Generator matrix is:');
+disp(G);
+disp('Code is:');
+disp(C);
+%Decoding of LBC
+p=input('Enter parity matrix:');
+h=horzcat(p.',eye(n-k));
+ec1=vertcat(zeros(1,n), eye(n));
+ec2=vertcat(zeros(1,n-k),h.');
+disp('ERROR DECODING TABLE:');
+ec=horzcat(ec1,ec2);
+disp(ec);
+r=input('Enter the received message:');
+s=mod(r*h.',2);
+disp('SYNDROME IS (S):');
+disp(s);
+if s==zeros(1,n-k)
+disp('NO ERROR IN RECEIVED MESSAGE');
+else
+disp('ERROR IN BIT');
+d=find(ismember (ec2, s, 'rows')); disp(d-1);
+r(d-1)=(r(d-1)+1);
+disp('CORRECTED CODEWORD IS:');
+R=rem(r, 2);
+disp(R);
+end
+
+%Enter n:7
+%Enter k:4
+%Enter data: [1 1 0 0]
+%Enter generator matrix: [1,0,0,0,1,1,0;0,1,0,0,0,1,1;0,0,1,0,1,1,1;0,0,0,1,1,0,1]
+%enter parity: [1,1,0;0,1,1;1,1,1;1,0,1]
+%Enter the received message:[0111101]
+*******************************************************************************************************************************
+%Huffman
+clc;
+clear all;
+close all;
+
+symbols = input('Enter the symbols (as a vector): ');
+prob = input('Enter the Probabilities (as a vector): ');
+
+[dict, avglen] = huffmandict(symbols, prob);
+
+temp = dict;
+for i = 1:length(temp)
+    temp{i,2} = num2str(temp{i,2});
+end
+
+disp('Huffman Dictionary:');
+disp(temp);
+
+actualsig = randsrc(100, 1, [symbols; prob]);
+
+encoded = huffmanenco(actualsig, dict);
+decoded = huffmandeco(encoded, dict);
+
+disp('ENCODED Huffman code:');
+disp(encoded');
+
+disp('DECODED Huffman code:');
+disp(decoded');
+
+%Enter the symbols:[1 2 3 4 5]
+%Enter the Probabilities:[0.4 0.2 0.2 0.1 0.1]
+****************************************************************************************************************
+%Entropy
+clc;
+clear all;
+close all;
+
+for i = 1:2
+    px(i) = input("Enter P(xi) = ");
+end
+
+py = [0 0];
+pygx = [0 0; 0 0];
+
+for i = 1:2
+    for j = 1:2
+        pygx(i,j) = input("Enter P(yj/xi) = ");
+    end
+end
+
+for i = 1:2
+    for j = 1:2
+        Py = px(j) * pygx(j,i);
+        py(i) = py(i) + Py;
+    end
+end
+
+hx = 0;
+for i = 1:2
+    h = px(i) * (log(1/px(i)) / log(2));
+    hx = hx + h;
+end
+
+hy = 0;
+for i = 1:2
+    y = py(i) * (log(1/py(i)) / log(2));
+    hy = hy + y;
+end
+
+for i = 1:2
+    for j = 1:2
+        pxy(i,j) = pygx(j,i) * px(i);
+    end
+end
+
+Hygx = 0;
+for i = 1:2
+    for j = 1:2
+        hygx = pxy(i,j) * (log(1/pygx(j,i)) / log(2));
+        Hygx = Hygx + hygx;
+    end
+end
+
+Hxy = hx + Hygx;
+lxy = hy - Hygx;
+
+disp("P(x)");
+disp(px);
+disp("P(y/x)");
+disp(pygx);
+disp("P(y)");
+disp(py);
+disp("H(x)");
+disp(hx);
+disp("H(y)");
+disp(hy);
+disp("P(x,y)");
+disp(pxy);
+disp("H(y|x)");
+disp(Hygx);
+disp("I(x;y)");
+disp(lxy);
+
+Hx = 0;
+pxv = 0:0.01:1;
+for i = 1:length(pxv)
+    q = 1 - pxv(i);
+    if pxv(i) == 0 || pxv(i) == 1
+        Hx(i) = 0;
+    else
+        Hx(i) = -pxv(i)*log2(pxv(i)) - q*log2(q);
+    end
+end
+
+plot(pxv, Hx);
+grid on;
+xlabel("Probability p(x)");
+ylabel("Entropy H(x)");
+title("Binary Entropy Function");
+
+
+% enter thses values 
+% P(xi) = 0.5
+%Enter P(xi) = 0.5
+%Enter P(yj/xi) = 0.4
+%Enter P(yj/xi) = 0.6
+%Enter P(yj/xi) = 0.4 
+****************************************************************************************************
+%randomprocess
+
+clc;
+clear all;
+close all;
+
+n = 1000;               % num of random values from Gaussian distribution
+mu = 0;                 % mean
+sigma = 1;              % standard deviation
+
+y = normrnd(mu, sigma, 1, n);   
+
+
+[Gy, f] = periodogram(y);        % find PSD
+
+
+[Ry, lags] = xcorr(y, 'normalized');   % autocorrelation using xcorr
+
+
+figure
+subplot(1,2,1)
+plot(f, Gy, 'b', 'LineWidth', 1.2)
+xlabel('Frequency Samples')
+ylabel('Power')
+title('PSD')
+grid on
+
+subplot(1,2,2)
+stem(lags, Ry, 'r', 'filled')
+xlabel('Time Shift')
+ylabel('Autocorrelation')
+title('Autocorrelation')
+grid on
+*******************************************************************************************
+%MaryPSK
+
+% M-PSK Modulation and Performance over AWGN
+clear all;
+close all;
+clc;
+
+% Eb/No range (in dB)
+Eb_NO_db = 0:0.5:35;
+
+% M values
+M_4 = 4;
+M_8 = 8;
+M_16 = 16;
+M_32 = 32;
+
+% Theoretical BER using MATLAB's built-in function
+BER_4 = berawgn(Eb_NO_db, 'psk', M_4, 'nondiff');
+BER_8 = berawgn(Eb_NO_db, 'psk', M_8, 'nondiff');
+BER_16 = berawgn(Eb_NO_db, 'psk', M_16, 'nondiff');
+BER_32 = berawgn(Eb_NO_db, 'psk', M_32, 'nondiff');
+
+% Plot BER vs Eb/No
+figure(1);
+semilogy(Eb_NO_db, BER_4, 'b', 'LineWidth', 1.5); hold on;
+semilogy(Eb_NO_db, BER_8, 'r', 'LineWidth', 1.5);
+semilogy(Eb_NO_db, BER_16, 'k', 'LineWidth', 1.5);
+semilogy(Eb_NO_db, BER_32, 'g', 'LineWidth', 1.5);
+grid on;
+axis([0 35 1e-5 1]);
+legend('QPSK (4-PSK)', '8-PSK', '16-PSK', '32-PSK');
+xlabel('SNR (dB)');
+ylabel('Bit Error Rate (BER)');
+title('M-PSK Modulation over Gaussian Noise');
+
+%% ---------------- Constellation Plot Section ---------------- %%
+% Example: 8-PSK constellation
+M = 8;                          % Modulation order
+N = 1000;                       % Number of symbols
+data = randi([0 M-1], N, 1);    % Random input data
+modSig = pskmod(data, M);       % PSK modulation
+
+% Add AWGN noise
+SNR = 15;                      % Eb/No in dB for scatter plot
+rxSig = awgn(modSig, SNR, 'measured');
+
+% Plot transmitted (ideal) constellation
+figure(2);
+subplot(1,2,1);
+scatterplot(modSig);
+title(['Ideal ', num2str(M), '-PSK Constellation']);
+grid on;
+
+% Plot received (noisy) constellation
+subplot(1,2,2);
+scatterplot(rxSig);
+title([num2str(M), '-PSK Constellation with AWGN (Eb/No = ', num2str(EbNo), ' dB)']);
+grid on;
+**************************************************************************************************************
+%M_QAM
+
+clear all;
+close all;
+clc;
+
+% M-ary QAM Modulation over Gaussian Noise
+
+Eb_NO_dB = 0:0.5:35;    % Eb/No range (in dB)
+
+% Modulation orders
+M_4  = 4;
+M_16 = 16;
+M_64 = 64;
+
+% Theoretical BER for QAM (non-differential, coherent detection)
+BER_4  = berawgn(Eb_NO_dB, 'qam', M_4, 'nondiff');
+BER_16 = berawgn(Eb_NO_dB, 'qam', M_16, 'nondiff');
+BER_64 = berawgn(Eb_NO_dB, 'qam', M_64, 'nondiff');
+
+% Plot BER curves
+figure(1);
+semilogy(Eb_NO_dB, BER_4, 'b', 'LineWidth', 1.5);
+hold on;
+semilogy(Eb_NO_dB, BER_16, 'r', 'LineWidth', 1.5);
+semilogy(Eb_NO_dB, BER_64, 'g', 'LineWidth', 1.5);
+grid on;
+
+axis([0 35 1e-5 1]);
+legend('4-QAM (QPSK)', '16-QAM', '64-QAM');
+xlabel('Eb/No (dB)');
+ylabel('Bit Error Rate (BER)');
+title('M-QAM Modulation over Gaussian Noise');
+***************************************************************************
+%M_QAM_Constalation
+clc;
+clear all;
+close all;
+% Running the program for three values of M
+M_values = [64]; % Use array instead of commas
+SNR = 10; % Signal-to-noise ratio
+for i = 1:length(M_values)
+ M = M_values(i);
+ x = 0:M-1; % Input symbols
+ % QAM Modulation
+ y = qammod(x, M); % Syntax: qammod(x, M)
+ % Add AWGN noise
+ yn = awgn(y, SNR, 'measured');
+ % Display constellation
+ figure;
+ scatterplot(y);
+ title(['Constellation Diagram for ', num2str(M), '-QAM (Without Noise)']);
+ figure;
+ scatterplot(yn);
+ title(['Constellation Diagram for ', num2str(M), '-QAM (With AWGN, SNR=',
+num2str(SNR), ' dB)']);
+end
+**************************************************************************************************************************************************************************************************************************************************************************************************************************************
